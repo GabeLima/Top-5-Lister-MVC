@@ -122,12 +122,25 @@ export default class Top5View {
     }
 
     updateToolbarButtons(model) {
+        console.log("updateToolbarButtons called");
         let tps = model.tps;
+        let undoModal = document.getElementById("undo-button");
+        let redoModal = document.getElementById("redo-button");
         if (!tps.hasTransactionToUndo()) {
-            this.disableButton("undo-button");
+            //this.disableButton("undo-button");
+            undoModal.style.visibility = "hidden";
         }
         else {
-            this.enableButton("undo-button");
-        }   
+            //this.enableButton("undo-button");
+            undoModal.style.visibility = "visible";
+        }
+        if (!tps.hasTransactionToRedo()) {
+            //this.disableButton("redo-button");
+            redoModal.style.visibility = "hidden";
+        }
+        else {
+            //this.enableButton("redo-button");
+            redoModal.style.visibility = "visible";
+        } 
     }
 }

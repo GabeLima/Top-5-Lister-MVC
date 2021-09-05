@@ -26,6 +26,9 @@ export default class Top5Controller {
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();
         }
+        document.getElementById("redo-button").onmousedown = (event) => {
+            this.model.redo();
+        }
 
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
@@ -44,13 +47,14 @@ export default class Top5Controller {
                     textInput.setAttribute("value", this.model.currentList.getItemAt(i-1));
 
                     item.appendChild(textInput);
-
+                    textInput.focus();
                     textInput.ondblclick = (event) => {
                         this.ignoreParentClick(event);
                     }
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
+                            this.model.view.updateToolbarButtons(this.model);
                         }
                     }
                     textInput.onblur = (event) => {
@@ -104,6 +108,8 @@ export default class Top5Controller {
 
         //FOR EDITING THE LIST NAME
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
+            let modal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
+            modal.style.visibility = "hidden";   
             let oldListName = this.model.getList(id).getName();
             console.log(this.model.getList(id));
             console.log(document);
@@ -117,7 +123,7 @@ export default class Top5Controller {
             textInput.setAttribute("id", "item-text-input-" + id);
             textInput.setAttribute("value", oldListName);
             //APPEND THE TEXTBOX TO OUR ITEM, IN THIS CASE THE LIST "BOX"
-            item.appendChild(textInput);
+            item.appendChild(textInput);             
             textInput.focus();
             //VARIOUS CASING FOR HANDLING INPUT
             textInput.ondblclick = (event) => {
@@ -126,11 +132,13 @@ export default class Top5Controller {
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
                     this.model.renameList(id, event.target.value); //need to modify this to change the list name, not the items in the list
+                    modal.style.visibility = "visible";
                 }
             }
             textInput.onblur = (event) => {
                 item.innerText = oldListName;
                 this.model.restoreList();
+                modal.style.visibility = "visible"; 
             }
         }
     }

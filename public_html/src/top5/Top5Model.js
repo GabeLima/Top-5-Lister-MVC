@@ -185,28 +185,28 @@ export default class Top5Model {
     removeList(id){
         let newList = [];
         let i = 0;
-        console.log("Removing id: " + id);
-        console.log("Length of top5Lists: " + this.top5Lists.length);
+        // console.log("Removing id: " + id);
+        // console.log("Length of top5Lists: " + this.top5Lists.length);
         while(i < this.top5Lists.length){
-            console.log(this.top5Lists[i].id + "---------" + id);
+            // console.log(this.top5Lists[i].id + "---------" + id);
             if(this.top5Lists[i].id === id){
             }
             else{
-                console.log("Adding this to the newList: ", this.top5Lists[i]);
+                // console.log("Adding this to the newList: ", this.top5Lists[i]);
                 this.top5Lists[i].id = newList.length;
                 newList.push(this.top5Lists[i])
                 //newList[Number(i)] = this.top5Lists[i];
             }
             i ++;
         }
-        console.log(newList);
+        // console.log(newList);
         this.top5Lists = newList;
         this.nextListId = this.top5Lists.length;
         this.currentList = null;
         
         // let item = document.getElementById("top5-list-" + id);
         // item.parentNode.removeChild(item);
-        console.log("This is the new top5 lists: " + this.top5Lists);
+        // console.log("This is the new top5 lists: " + this.top5Lists);
         this.view.refreshLists(this.top5Lists);
         this.saveLists();
     }
@@ -215,6 +215,12 @@ export default class Top5Model {
     undo() {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
+            this.view.updateToolbarButtons(this);
+        }
+    }
+    redo() {
+        if (this.tps.hasTransactionToRedo()) {
+            this.tps.doTransaction();
             this.view.updateToolbarButtons(this);
         }
     }
