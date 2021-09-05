@@ -170,6 +170,7 @@ export default class Top5Model {
         item.innerText = newName; // Set the new text name
         let oldList = this.top5Lists[id];
         oldList.setName(newName);
+        this.sortLists();
         this.restoreList();
         this.saveLists();
         //this.view.updateToolbarButtons(this);
@@ -179,11 +180,17 @@ export default class Top5Model {
     removeList(id){
         let newList = [];
         let i = 0;
+        console.log("Removing id: " + id);
+        console.log("Length of top5Lists: " + this.top5Lists.length);
         while(i < this.top5Lists.length){
-            console.log(this.top5Lists[i] + "---------" + id);
-            if(!i == id){
+            console.log(this.top5Lists[i].id + "---------" + id);
+            if(this.top5Lists[i].id === id){
+            }
+            else{
                 console.log("Adding this to the newList: ", this.top5Lists[i]);
-                newList[i] = this.top5Lists[i];
+                this.top5Lists[i].id = newList.length;
+                newList.push(this.top5Lists[i])
+                //newList[Number(i)] = this.top5Lists[i];
             }
             i ++;
         }
@@ -191,8 +198,11 @@ export default class Top5Model {
         this.top5Lists = newList;
         this.nextListId = this.top5Lists.length;
         this.currentList = null;
-        let item = document.getElementById("top5-list-" + id);
-        item.parentNode.removeChild(item);
+        
+        // let item = document.getElementById("top5-list-" + id);
+        // item.parentNode.removeChild(item);
+        console.log("This is the new top5 lists: " + this.top5Lists);
+        this.view.refreshLists(this.top5Lists);
         this.saveLists();
     }
 

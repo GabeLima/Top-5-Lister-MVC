@@ -82,7 +82,7 @@ export default class Top5Controller {
             modal.classList.add("is-visible");
             //dialog-confirm-button
             document.getElementById("dialog-confirm-button").onmousedown = (event) => {
-                console.log("Confirm button");
+                this.model.removeList(id);
                 modal.classList.remove("is-visible");
             }
             document.getElementById("dialog-cancel-button").onmousedown = (event) => {
