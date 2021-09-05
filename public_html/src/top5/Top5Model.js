@@ -62,6 +62,7 @@ export default class Top5Model {
         return newList;
     }
 
+
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
             if (listA.getName() < listB.getName()) {
@@ -159,6 +160,16 @@ export default class Top5Model {
     changeItem(id, text) {
         this.currentList.items[id] = text;
         this.view.update(this.currentList);
+        this.saveLists();
+    }
+
+    // Custom way to rename a list, meant to be triggered by double clicking
+    renameList(id, newName){
+        let item = document.getElementById("list-card-text-" + id);
+        item.innerText = newName; // Set the new text name
+        let oldList = this.top5Lists[id];
+        oldList.setName(newName);
+        this.restoreList();
         this.saveLists();
     }
 

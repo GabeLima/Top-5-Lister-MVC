@@ -84,14 +84,46 @@ export default class Top5Controller {
         // FOR HOVERING THE LIST
         document.getElementById("top5-list-" + id).onmouseenter = (event) => {
             let listName = this.model.getList(id).getName();
-            console.log(listName)
+            //console.log(listName)
             this.model.hoverController(id, true);
         }
-        // FOR HOVERING THE LIST
+        // FOR UNHOVERING THE LIST
         document.getElementById("top5-list-" + id).onmouseleave = (event) => {
             let listName = this.model.getList(id).getName();
-            console.log(listName)
+            //console.log(listName)
             this.model.hoverController(id, false);
+        }
+
+        //FOR EDITING THE LIST NAME
+        document.getElementById("top5-list-" + id).ondblclick = (event) => {
+            let oldListName = this.model.getList(id).getName();
+            console.log(this.model.getList(id));
+            console.log(document);
+            let item = document.getElementById("list-card-text-" + id);
+            item.innerText = ""; // Clear the text
+            console.log(item);
+            
+            // CREATE THE TEXT BOX ELEMENT
+            let textInput = document.createElement("input");
+            textInput.setAttribute("type", "text");
+            textInput.setAttribute("id", "item-text-input-" + id);
+            textInput.setAttribute("value", oldListName);
+            //APPEND THE TEXTBOX TO OUR ITEM, IN THIS CASE THE LIST "BOX"
+            item.appendChild(textInput);
+            textInput.focus();
+            //VARIOUS CASING FOR HANDLING INPUT
+            textInput.ondblclick = (event) => {
+                this.ignoreParentClick(event);
+            }
+            textInput.onkeydown = (event) => {
+                if (event.key === 'Enter') {
+                    this.model.renameList(id, event.target.value); //need to modify this to change the list name, not the items in the list
+                }
+            }
+            textInput.onblur = (event) => {
+                item.innerText = oldListName;
+                this.model.restoreList();
+            }
         }
     }
 
