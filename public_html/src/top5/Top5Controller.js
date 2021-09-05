@@ -29,6 +29,11 @@ export default class Top5Controller {
         document.getElementById("redo-button").onmousedown = (event) => {
             this.model.redo();
         }
+        document.getElementById("close-button").onmousedown = (event) => {
+            console.log("TODO CLOSE BUTTON");
+            this.model.cancelButton();
+            //this.model.redo();
+        }
 
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
@@ -69,7 +74,6 @@ export default class Top5Controller {
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
-
             // GET THE SELECTED LIST
             this.model.loadList(id);
         }
@@ -108,8 +112,11 @@ export default class Top5Controller {
 
         //FOR EDITING THE LIST NAME
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
-            let modal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
-            modal.style.visibility = "hidden";   
+            //Hide the list button
+            let addListModal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
+            addListModal.style.visibility = "hidden";   
+
+
             let oldListName = this.model.getList(id).getName();
             console.log(this.model.getList(id));
             console.log(document);
@@ -132,13 +139,13 @@ export default class Top5Controller {
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
                     this.model.renameList(id, event.target.value); //need to modify this to change the list name, not the items in the list
-                    modal.style.visibility = "visible";
+                    addListModal.style.visibility = "visible";
                 }
             }
             textInput.onblur = (event) => {
                 item.innerText = oldListName;
                 this.model.restoreList();
-                modal.style.visibility = "visible"; 
+                addListModal.style.visibility = "visible"; 
             }
         }
     }

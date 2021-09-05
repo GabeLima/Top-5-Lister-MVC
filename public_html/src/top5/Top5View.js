@@ -94,6 +94,9 @@ export default class Top5View {
         if(listCard.classList.contains("selected-list-card-black")){
             listCard.classList.remove("selected-list-card-black");
         }
+        //Show the close button
+        let closeButtonModal = document.getElementById("close-button");
+        closeButtonModal.style.visibility = "visible";
     }
 
     unhighlightList(listId) {
@@ -101,6 +104,9 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("unselected-list-card");
         listCard.classList.remove("selected-list-card");
+        //Hide the close button
+        let closeButtonModal = document.getElementById("close-button");
+        closeButtonModal.style.visibility = "hidden";
     }
 
     highlightListBlack(listId) {

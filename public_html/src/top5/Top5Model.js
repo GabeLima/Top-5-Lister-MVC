@@ -210,6 +210,14 @@ export default class Top5Model {
         this.view.refreshLists(this.top5Lists);
         this.saveLists();
     }
+    //Custom way of unselecting the current list
+    cancelButton(){
+        this.unselectAll();
+        
+        this.currentList = null;
+        this.view.clearWorkspace();
+        this.view.refreshLists(this.top5Lists);
+    }
 
     // SIMPLE UNDO/REDO FUNCTIONS
     undo() {
