@@ -80,11 +80,19 @@ export default class Top5Controller {
             deleteSpan.innerHTML = "";
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
+            //dialog-confirm-button
+            document.getElementById("dialog-confirm-button").onmousedown = (event) => {
+                console.log("Confirm button");
+                modal.classList.remove("is-visible");
+            }
+            document.getElementById("dialog-cancel-button").onmousedown = (event) => {
+                modal.classList.remove("is-visible");
+            }
         }
         // FOR HOVERING THE LIST
         document.getElementById("top5-list-" + id).onmouseenter = (event) => {
             let listName = this.model.getList(id).getName();
-            //console.log(listName)
+            console.log(listName)
             this.model.hoverController(id, true);
         }
         // FOR UNHOVERING THE LIST

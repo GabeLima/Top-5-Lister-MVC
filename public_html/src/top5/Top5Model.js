@@ -142,6 +142,7 @@ export default class Top5Model {
     }
 
     saveLists() {
+        console.log(this.top5Lists);
         let top5ListsString = JSON.stringify(this.top5Lists);
         localStorage.setItem("recent_work", top5ListsString);
     }
@@ -170,6 +171,28 @@ export default class Top5Model {
         let oldList = this.top5Lists[id];
         oldList.setName(newName);
         this.restoreList();
+        this.saveLists();
+        //this.view.updateToolbarButtons(this);
+        //this.loadLists();
+    }
+
+    removeList(id){
+        let newList = [];
+        let i = 0;
+        while(i < this.top5Lists.length){
+            console.log(this.top5Lists[i] + "---------" + id);
+            if(!i == id){
+                console.log("Adding this to the newList: ", this.top5Lists[i]);
+                newList[i] = this.top5Lists[i];
+            }
+            i ++;
+        }
+        console.log(newList);
+        this.top5Lists = newList;
+        this.nextListId = this.top5Lists.length;
+        this.currentList = null;
+        let item = document.getElementById("top5-list-" + id);
+        item.parentNode.removeChild(item);
         this.saveLists();
     }
 
