@@ -91,6 +91,9 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.remove("unselected-list-card");
         listCard.classList.add("selected-list-card");
+        if(listCard.classList.contains("selected-list-card-black")){
+            listCard.classList.remove("selected-list-card-black");
+        }
     }
 
     unhighlightList(listId) {
@@ -98,6 +101,24 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("unselected-list-card");
         listCard.classList.remove("selected-list-card");
+    }
+
+    highlightListBlack(listId) {
+        // HIGHLIGHT THE LIST
+        let listCard = document.getElementById("top5-list-" + listId);
+        if(!listCard.classList.contains("selected-list-card")){
+            listCard.classList.remove("unselected-list-card");
+            listCard.classList.add("selected-list-card-black");
+        }
+    }
+
+    unhighlightListBlack(listId) {
+        // UNHIGHLIGHT THE LIST
+        let listCard = document.getElementById("top5-list-" + listId);
+        if(!listCard.classList.contains("selected-list-card")){
+            listCard.classList.add("unselected-list-card");
+            listCard.classList.remove("selected-list-card-black");
+        }
     }
 
     updateToolbarButtons(model) {

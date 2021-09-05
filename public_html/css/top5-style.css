@@ -100,7 +100,7 @@ body {
   overflow: scroll;
 }
 
-.list-card, .selected-list-card, .unselected-list-card {
+.list-card, .selected-list-card, .unselected-list-card, .selected-list-card-black, .unselected-list-card-black {
   font-size: 18pt;
   margin: 10px;
   padding: 20px;
@@ -113,6 +113,15 @@ body {
 }
 
 .unselected-list-card {
+  background-color: var(--swatch-complement);
+}
+
+.selected-list-card-black {
+  background-color: var(--swatch-contrast);
+  color: white;
+}
+
+.unselected-list-card-black {
   background-color: var(--swatch-complement);
 }
 

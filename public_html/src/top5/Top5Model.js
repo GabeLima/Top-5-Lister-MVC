@@ -107,6 +107,16 @@ export default class Top5Model {
         this.view.updateToolbarButtons(this);
     }
 
+    hoverController(id, entering) {
+        if(entering){
+            this.view.highlightListBlack(id);
+        }
+        else{
+            this.view.unhighlightListBlack(id);
+        }
+    }
+
+
     loadLists() {
         // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
         let recentLists = localStorage.getItem("recent_work");

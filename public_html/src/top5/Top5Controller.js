@@ -81,6 +81,18 @@ export default class Top5Controller {
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
         }
+        // FOR HOVERING THE LIST
+        document.getElementById("top5-list-" + id).onmouseenter = (event) => {
+            let listName = this.model.getList(id).getName();
+            console.log(listName)
+            this.model.hoverController(id, true);
+        }
+        // FOR HOVERING THE LIST
+        document.getElementById("top5-list-" + id).onmouseleave = (event) => {
+            let listName = this.model.getList(id).getName();
+            console.log(listName)
+            this.model.hoverController(id, false);
+        }
     }
 
     ignoreParentClick(event) {
