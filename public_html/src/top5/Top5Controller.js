@@ -75,6 +75,9 @@ export default class Top5Controller {
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
             // GET THE SELECTED LIST
+            let item = document.getElementById("top5-statusbar");
+            item.innerText = "Top 5 " + this.model.getList(id).getName();
+            //top5-statusbar
             this.model.loadList(id);
         }
         // FOR DELETING THE LIST

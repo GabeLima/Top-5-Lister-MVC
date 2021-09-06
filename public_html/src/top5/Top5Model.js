@@ -109,6 +109,10 @@ export default class Top5Model {
             }
             i++;
         }
+        // SET THE TEXT TO THE STATUS BAR
+        let item = document.getElementById("top5-statusbar");
+        item.innerText = "Top 5 " + this.getList(id).getName();
+        
         this.tps.clearAllTransactions();
         this.view.updateToolbarButtons(this);
     }
@@ -217,6 +221,9 @@ export default class Top5Model {
         this.currentList = null;
         this.view.clearWorkspace();
         this.view.refreshLists(this.top5Lists);
+        //Remove the text from the status bar
+        let item = document.getElementById("top5-statusbar");
+        item.innerText = "";
     }
 
     // SIMPLE UNDO/REDO FUNCTIONS
