@@ -24,9 +24,11 @@ export default class Top5Controller {
             this.model.saveLists();
         }
         document.getElementById("undo-button").onmousedown = (event) => {
+            console.log("UNDO CALLED");
             this.model.undo();
         }
         document.getElementById("redo-button").onmousedown = (event) => {
+            console.log("REDO CALLED");
             this.model.redo();
         }
         document.getElementById("close-button").onmousedown = (event) => {
@@ -38,7 +40,11 @@ export default class Top5Controller {
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
             let item = document.getElementById("item-" + i);
-
+            //item.
+            // item.addEventListener('dragenter', dragEnter);
+            // item.addEventListener('dragover', dragOver);
+            // item.addEventListener('dragleave', dragLeave);
+            // item.addEventListener('drop', drop);
             // AND FOR TEXT EDITING
             item.ondblclick = (ev) => {
                 if (this.model.hasCurrentList()) {
@@ -68,9 +74,37 @@ export default class Top5Controller {
                 }
             }
         }
+        for(let id = 0; id <= 4; id ++){
+            //FOR DRAGGING THE ITEM
+            document.getElementById("item-" + (id + 1)).ondragstart = (event) => {
+                //event.preventDefault();
+                let listName = this.model.currentList.items[id];
+                console.log("Dragging: " + listName);
+                this.model.draggingId = id;
+            }
+            //DRAGGING OVER SOMETHING
+            document.getElementById("item-" + (id + 1)).ondragover = (event) => {
+                event.preventDefault();
+                let listName = this.model.currentList.items[id];
+                console.log("Hovering: " + listName);
+            }
+            //FOR DROPPING THE ITEM
+            document.getElementById("item-" + (id + 1)).ondrop = (event) => {
+                console.log("ON DROP TRIGGERED FOR ID: " + id);
+                if(this.model.draggingId != null || this.model.draggingId != undefined){
+                    //event.preventDefault();
+                    let listName = this.model.currentList.items[id];
+                    console.log("Dropping: " + listName);
+                    //this.model.moveItem(this.model.draggingId, id);
+                    this.model.addMoveItemTransaction(this.model.draggingId, id);
+                    this.model.draggingId = null;
+                }
+            }
+        }
     }
 
     registerListSelectHandlers(id) {
+        console.log("Registering handler for id- " + id);
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
@@ -149,10 +183,13 @@ export default class Top5Controller {
                 addListModal.style.visibility = "visible"; 
             }
         }
+
     }
 
     ignoreParentClick(event) {
         event.cancelBubble = true;
         if (event.stopPropagation) event.stopPropagation();
     }
+
+
 }

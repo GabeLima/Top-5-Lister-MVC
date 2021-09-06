@@ -1,6 +1,7 @@
 import jsTPS from "../common/jsTPS.js"
 import Top5List from "./Top5List.js";
 import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
+import MoveItem_Transaction from "./transactions/MoveItem_Transaction.js"
 
 /**
  * Top5Model.js
@@ -30,6 +31,8 @@ export default class Top5Model {
 
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST
         this.nextListId = 0;
+
+        this.draggingId = null;
     }
 
     getList(index) {
@@ -219,6 +222,7 @@ export default class Top5Model {
         this.unselectAll();
         
         this.currentList = null;
+        this.tps.clearAllTransactions();
         this.view.clearWorkspace();
         this.view.refreshLists(this.top5Lists);
         //Remove the text from the status bar
@@ -238,5 +242,38 @@ export default class Top5Model {
             this.tps.doTransaction();
             this.view.updateToolbarButtons(this);
         }
+    }
+
+    moveItem(oldIndex, newIndex){
+        console.log("Old index: " + oldIndex);
+        console.log("New index: " + newIndex);
+        let list = this.currentList.items;
+        let i = oldIndex;
+        let swapIndex = newIndex;
+        let direction = 1;
+        if(oldIndex > newIndex){
+            direction = -1;
+        }
+        //console.log("Swap index: " + swapIndex);
+        while (!(i == swapIndex)){
+            console.log(i);
+            let temp = list[i];
+            list[i] = list[i + direction];
+            list[i + direction] = temp;
+            i += direction;
+            
+        }
+        console.log("New list (supposedly): " + list);
+        this.currentList.items = list;
+        console.log(this.currentList.items);
+        this.view.update(this.currentList);
+
+    }
+
+    addMoveItemTransaction = (oldIndex, newIndex) => {
+        console.log("CALLED ADD MOVE ITEM TRANSACTION---------------------------------------------");
+        let transaction = new MoveItem_Transaction(this, oldIndex, newIndex);
+        this.tps.addTransaction(transaction);
+        this.view.updateToolbarButtons(this);
     }
 }
