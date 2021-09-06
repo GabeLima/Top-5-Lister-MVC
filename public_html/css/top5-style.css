@@ -180,12 +180,22 @@ body {
 }
 
 .top5-button {
+  position: left;
   font-size:32pt;
   border-width: 0px;
+  width: 15%;
+  height:100%;
   /* left:0%;
   top:0%;
   width:50%;
   height:50%; */
+}
+.top5-button-extra {
+  position: relative;
+  font-size:32pt;
+  border-width: 0px;
+  width: 5%;
+  height:100%;
 }
 
 #edit-numbering {

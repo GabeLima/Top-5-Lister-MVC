@@ -154,7 +154,7 @@ export default class Top5Model {
     }
 
     saveLists() {
-        console.log(this.top5Lists);
+        // console.log(this.top5Lists);
         let top5ListsString = JSON.stringify(this.top5Lists);
         localStorage.setItem("recent_work", top5ListsString);
     }
@@ -224,6 +224,7 @@ export default class Top5Model {
         this.currentList = null;
         this.tps.clearAllTransactions();
         this.view.clearWorkspace();
+        this.view.updateToolbarButtons(this);
         this.view.refreshLists(this.top5Lists);
         //Remove the text from the status bar
         let item = document.getElementById("top5-statusbar");
@@ -245,8 +246,8 @@ export default class Top5Model {
     }
 
     moveItem(oldIndex, newIndex){
-        console.log("Old index: " + oldIndex);
-        console.log("New index: " + newIndex);
+        // console.log("Old index: " + oldIndex);
+        // console.log("New index: " + newIndex);
         let list = this.currentList.items;
         let i = oldIndex;
         let swapIndex = newIndex;
@@ -263,9 +264,9 @@ export default class Top5Model {
             i += direction;
             
         }
-        console.log("New list (supposedly): " + list);
+        // console.log("New list (supposedly): " + list);
         this.currentList.items = list;
-        console.log(this.currentList.items);
+        // console.log(this.currentList.items);
         this.view.update(this.currentList);
 
     }
@@ -275,5 +276,6 @@ export default class Top5Model {
         let transaction = new MoveItem_Transaction(this, oldIndex, newIndex);
         this.tps.addTransaction(transaction);
         this.view.updateToolbarButtons(this);
+        this.saveLists();
     }
 }

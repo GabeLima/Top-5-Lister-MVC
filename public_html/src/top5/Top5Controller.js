@@ -24,15 +24,15 @@ export default class Top5Controller {
             this.model.saveLists();
         }
         document.getElementById("undo-button").onmousedown = (event) => {
-            console.log("UNDO CALLED");
+            // console.log("UNDO CALLED");
             this.model.undo();
         }
         document.getElementById("redo-button").onmousedown = (event) => {
-            console.log("REDO CALLED");
+            // console.log("REDO CALLED");
             this.model.redo();
         }
         document.getElementById("close-button").onmousedown = (event) => {
-            console.log("TODO CLOSE BUTTON");
+            // console.log("TODO CLOSE BUTTON");
             this.model.cancelButton();
             //this.model.redo();
         }
@@ -79,22 +79,22 @@ export default class Top5Controller {
             document.getElementById("item-" + (id + 1)).ondragstart = (event) => {
                 //event.preventDefault();
                 let listName = this.model.currentList.items[id];
-                console.log("Dragging: " + listName);
+                // console.log("Dragging: " + listName);
                 this.model.draggingId = id;
             }
             //DRAGGING OVER SOMETHING
             document.getElementById("item-" + (id + 1)).ondragover = (event) => {
                 event.preventDefault();
                 let listName = this.model.currentList.items[id];
-                console.log("Hovering: " + listName);
+                // console.log("Hovering: " + listName);
             }
             //FOR DROPPING THE ITEM
             document.getElementById("item-" + (id + 1)).ondrop = (event) => {
-                console.log("ON DROP TRIGGERED FOR ID: " + id);
+                // console.log("ON DROP TRIGGERED FOR ID: " + id);
                 if(this.model.draggingId != null || this.model.draggingId != undefined){
                     //event.preventDefault();
                     let listName = this.model.currentList.items[id];
-                    console.log("Dropping: " + listName);
+                    // console.log("Dropping: " + listName);
                     //this.model.moveItem(this.model.draggingId, id);
                     this.model.addMoveItemTransaction(this.model.draggingId, id);
                     this.model.draggingId = null;
@@ -104,7 +104,7 @@ export default class Top5Controller {
     }
 
     registerListSelectHandlers(id) {
-        console.log("Registering handler for id- " + id);
+        // console.log("Registering handler for id- " + id);
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
@@ -135,7 +135,7 @@ export default class Top5Controller {
         // FOR HOVERING THE LIST
         document.getElementById("top5-list-" + id).onmouseenter = (event) => {
             let listName = this.model.getList(id).getName();
-            console.log(listName)
+            // console.log(listName)
             this.model.hoverController(id, true);
         }
         // FOR UNHOVERING THE LIST
@@ -153,11 +153,11 @@ export default class Top5Controller {
 
 
             let oldListName = this.model.getList(id).getName();
-            console.log(this.model.getList(id));
-            console.log(document);
+            // console.log(this.model.getList(id));
+            // console.log(document);
             let item = document.getElementById("list-card-text-" + id);
             item.innerText = ""; // Clear the text
-            console.log(item);
+            // console.log(item);
             
             // CREATE THE TEXT BOX ELEMENT
             let textInput = document.createElement("input");

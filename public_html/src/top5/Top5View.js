@@ -128,7 +128,7 @@ export default class Top5View {
     }
 
     updateToolbarButtons(model) {
-        console.log("updateToolbarButtons called");
+        // console.log("updateToolbarButtons called");
         let tps = model.tps;
         let undoModal = document.getElementById("undo-button");
         let redoModal = document.getElementById("redo-button");
