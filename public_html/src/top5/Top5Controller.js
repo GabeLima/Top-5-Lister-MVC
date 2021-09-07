@@ -33,6 +33,8 @@ export default class Top5Controller {
         }
         document.getElementById("close-button").onmousedown = (event) => {
             // console.log("TODO CLOSE BUTTON");
+            let addListModal = document.getElementById("add-list-button");
+            addListModal.style.visibility = "visible"; 
             this.model.cancelButton();
             //this.model.redo();
         }
@@ -107,6 +109,8 @@ export default class Top5Controller {
         // console.log("Registering handler for id- " + id);
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
+            let addListModal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
+            addListModal.style.visibility = "hidden";   
             this.model.unselectAll();
             // GET THE SELECTED LIST
             //top5-statusbar
@@ -148,8 +152,6 @@ export default class Top5Controller {
         //FOR EDITING THE LIST NAME
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
             //Hide the list button
-            let addListModal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
-            addListModal.style.visibility = "hidden";   
 
 
             let oldListName = this.model.getList(id).getName();
@@ -174,13 +176,11 @@ export default class Top5Controller {
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
                     this.model.renameList(id, event.target.value); //need to modify this to change the list name, not the items in the list
-                    addListModal.style.visibility = "visible";
                 }
             }
             textInput.onblur = (event) => {
                 item.innerText = oldListName;
                 this.model.restoreList();
-                addListModal.style.visibility = "visible"; 
             }
         }
 
