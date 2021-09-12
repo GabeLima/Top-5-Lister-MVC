@@ -1,6 +1,7 @@
 import jsTPS from "../common/jsTPS.js"
 import Top5List from "./Top5List.js";
 import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
+import MoveItem_Transaction from "./transactions/MoveItem_Transaction.js"
 
 /**
  * Top5Model.js
@@ -30,6 +31,8 @@ export default class Top5Model {
 
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST
         this.nextListId = 0;
+
+        this.draggingId = null;
     }
 
     getList(index) {
@@ -62,18 +65,24 @@ export default class Top5Model {
         return newList;
     }
 
+
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
-            if (listA.getName() < listB.getName()) {
+            if (listA.getName().toLowerCase() < listB.getName().toLowerCase()) {
                 return -1;
             }
-            else if (listA.getName === listB.getName()) {
+            else if (listA.getName() === listB.getName()) {
                 return 0;
             }
             else {
                 return 1;
             }
         });
+        let i = 0;
+        while(i < this.top5Lists.length){
+            this.top5Lists[i].id = i;
+            i++;
+        }
         this.view.refreshLists(this.top5Lists);
     }
 
@@ -103,9 +112,23 @@ export default class Top5Model {
             }
             i++;
         }
+        // SET THE TEXT TO THE STATUS BAR
+        let item = document.getElementById("top5-statusbar");
+        item.innerText = "Top 5 " + this.getList(id).getName();
+        
         this.tps.clearAllTransactions();
         this.view.updateToolbarButtons(this);
     }
+
+    hoverController(id, entering) {
+        if(entering){
+            this.view.highlightListBlack(id);
+        }
+        else{
+            this.view.unhighlightListBlack(id);
+        }
+    }
+
 
     loadLists() {
         // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
@@ -131,6 +154,7 @@ export default class Top5Model {
     }
 
     saveLists() {
+        // console.log(this.top5Lists);
         let top5ListsString = JSON.stringify(this.top5Lists);
         localStorage.setItem("recent_work", top5ListsString);
     }
@@ -152,11 +176,106 @@ export default class Top5Model {
         this.saveLists();
     }
 
+    // Custom way to rename a list, meant to be triggered by double clicking
+    renameList(id, newName){
+        let item = document.getElementById("list-card-text-" + id);
+        item.innerText = newName; // Set the new text name
+        let oldList = this.top5Lists[id];
+        oldList.setName(newName);
+        this.sortLists();
+        this.restoreList();
+        this.saveLists();
+        //this.view.updateToolbarButtons(this);
+        //this.loadLists();
+    }
+
+    removeList(id){
+        let newList = [];
+        let i = 0;
+        // console.log("Removing id: " + id);
+        // console.log("Length of top5Lists: " + this.top5Lists.length);
+        while(i < this.top5Lists.length){
+            // console.log(this.top5Lists[i].id + "---------" + id);
+            if(this.top5Lists[i].id === id){
+            }
+            else{
+                // console.log("Adding this to the newList: ", this.top5Lists[i]);
+                this.top5Lists[i].id = newList.length;
+                newList.push(this.top5Lists[i])
+                //newList[Number(i)] = this.top5Lists[i];
+            }
+            i ++;
+        }
+        // console.log(newList);
+        this.top5Lists = newList;
+        this.nextListId = this.top5Lists.length;
+        this.currentList = null;
+        
+        // let item = document.getElementById("top5-list-" + id);
+        // item.parentNode.removeChild(item);
+        // console.log("This is the new top5 lists: " + this.top5Lists);
+        this.view.refreshLists(this.top5Lists);
+        this.saveLists();
+    }
+    //Custom way of unselecting the current list
+    cancelButton(){
+        this.unselectAll();
+        
+        this.currentList = null;
+        this.tps.clearAllTransactions();
+        this.view.clearWorkspace();
+        this.view.updateToolbarButtons(this);
+        this.view.refreshLists(this.top5Lists);
+        //Remove the text from the status bar
+        let item = document.getElementById("top5-statusbar");
+        item.innerText = "";
+    }
+
     // SIMPLE UNDO/REDO FUNCTIONS
     undo() {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
             this.view.updateToolbarButtons(this);
         }
+    }
+    redo() {
+        if (this.tps.hasTransactionToRedo()) {
+            this.tps.doTransaction();
+            this.view.updateToolbarButtons(this);
+        }
+    }
+
+    moveItem(oldIndex, newIndex){
+        // console.log("Old index: " + oldIndex);
+        // console.log("New index: " + newIndex);
+        let list = this.currentList.items;
+        let i = oldIndex;
+        let swapIndex = newIndex;
+        let direction = 1;
+        if(oldIndex > newIndex){
+            direction = -1;
+        }
+        //console.log("Swap index: " + swapIndex);
+        while (!(i == swapIndex)){
+            console.log(i);
+            let temp = list[i];
+            list[i] = list[i + direction];
+            list[i + direction] = temp;
+            i += direction;
+            
+        }
+        // console.log("New list (supposedly): " + list);
+        this.currentList.items = list;
+        // console.log(this.currentList.items);
+        this.view.update(this.currentList);
+
+    }
+
+    addMoveItemTransaction = (oldIndex, newIndex) => {
+        console.log("CALLED ADD MOVE ITEM TRANSACTION---------------------------------------------");
+        let transaction = new MoveItem_Transaction(this, oldIndex, newIndex);
+        this.tps.addTransaction(transaction);
+        this.view.updateToolbarButtons(this);
+        this.saveLists();
     }
 }

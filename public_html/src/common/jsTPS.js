@@ -134,6 +134,8 @@ export default class jsTPS {
      * @param {jsTPS_Transaction} transaction Transaction to add to the stack and do.
      */
     addTransaction(transaction) {
+        //console.log("transaction: " + transaction);
+        //console.log("doTransaction: " + transaction.doTransaction());
         // ARE WE BRANCHING?
         if ((this.mostRecentTransaction < 0) 
             || (this.mostRecentTransaction < (this.transactions.length - 1))) {

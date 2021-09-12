@@ -91,6 +91,12 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.remove("unselected-list-card");
         listCard.classList.add("selected-list-card");
+        if(listCard.classList.contains("selected-list-card-black")){
+            listCard.classList.remove("selected-list-card-black");
+        }
+        //Show the close button
+        let closeButtonModal = document.getElementById("close-button");
+        closeButtonModal.style.visibility = "visible";
     }
 
     unhighlightList(listId) {
@@ -98,15 +104,49 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("unselected-list-card");
         listCard.classList.remove("selected-list-card");
+        //Hide the close button
+        let closeButtonModal = document.getElementById("close-button");
+        closeButtonModal.style.visibility = "hidden";
+    }
+
+    highlightListBlack(listId) {
+        // HIGHLIGHT THE LIST
+        let listCard = document.getElementById("top5-list-" + listId);
+        if(!listCard.classList.contains("selected-list-card")){
+            listCard.classList.remove("unselected-list-card");
+            listCard.classList.add("selected-list-card-black");
+        }
+    }
+
+    unhighlightListBlack(listId) {
+        // UNHIGHLIGHT THE LIST
+        let listCard = document.getElementById("top5-list-" + listId);
+        if(!listCard.classList.contains("selected-list-card")){
+            listCard.classList.add("unselected-list-card");
+            listCard.classList.remove("selected-list-card-black");
+        }
     }
 
     updateToolbarButtons(model) {
+        // console.log("updateToolbarButtons called");
         let tps = model.tps;
+        let undoModal = document.getElementById("undo-button");
+        let redoModal = document.getElementById("redo-button");
         if (!tps.hasTransactionToUndo()) {
-            this.disableButton("undo-button");
+            //this.disableButton("undo-button");
+            undoModal.style.visibility = "hidden";
         }
         else {
-            this.enableButton("undo-button");
-        }   
+            //this.enableButton("undo-button");
+            undoModal.style.visibility = "visible";
+        }
+        if (!tps.hasTransactionToRedo()) {
+            //this.disableButton("redo-button");
+            redoModal.style.visibility = "hidden";
+        }
+        else {
+            //this.enableButton("redo-button");
+            redoModal.style.visibility = "visible";
+        } 
     }
 }

@@ -10,7 +10,7 @@
     saved to the browser's local storage.
     
     @author McKilla Gorilla
-    @author ?
+    @author Gabriello Lima
 -->
 
 <head>
@@ -31,7 +31,7 @@
         </div>
         <div id="top5-sidebar">
             <div id="sidebar-heading">
-                <input type="button" id="add-list-button" class="top5-button" value="+" />
+                <input type="button" id="add-list-button" class="top5-button" style="background: url('./images/icons/AddItem.png'); background-repeat: no-repeat; background-size: contain;" />
                 Your Lists
             </div>
             <div id="sidebar-list"></div>
@@ -39,7 +39,9 @@
         <div id="top5-workspace">
             <div id="workspace-edit">
                 <div id="edit-toolbar">
-                    <input type="button" id='undo-button' value="&#x21B6;" class="top5-button" class="disabled" />
+                    <input type="button" id='undo-button' class="top5-button-extra" class="disabled" style="background: url('./images/icons/undo.png'); background-repeat: no-repeat; background-size: 95%;"/>
+                    <input type="button" id='redo-button' class="top5-button-extra" class="disabled" style="background: url('./images/icons/Redo.png'); background-repeat: no-repeat; background-size: 95%;"/>
+                    <input type="button" id='close-button' class="top5-button-extra" class="disabled" style="background: url('./images/icons/close.png'); background-repeat: no-repeat; background-size: 95%;"/>
                 </div>
                 <div id="edit-numbering">
                     <div class="item-number">
@@ -51,11 +53,11 @@
                     <div class="item-number">5.</div>
                 </div>
                 <div id="edit-items">
-                    <div id='item-1' class="top5-item"></div>
-                    <div id='item-2' class="top5-item"></div>
-                    <div id='item-3' class="top5-item"></div>
-                    <div id='item-4' class="top5-item"></div>
-                    <div id='item-5' class="top5-item"></div>
+                    <div id='item-1' class="top5-item" draggable="true" ></div>
+                    <div id='item-2' class="top5-item" draggable="true" ></div>
+                    <div id='item-3' class="top5-item" draggable="true" ></div>
+                    <div id='item-4' class="top5-item" draggable="true" ></div>
+                    <div id='item-5' class="top5-item" draggable="true"></div>
                 </div>
             </div>
         </div>

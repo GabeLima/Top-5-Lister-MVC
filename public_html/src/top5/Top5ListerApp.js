@@ -40,6 +40,11 @@ export class Top5ListerApp {
         if (!success) {
             this.loadListsFromJSON("./data/default_lists.json");
         }
+        //Hides the undo and redo button on launch
+        this.view.updateToolbarButtons(this.model);
+        //Hide the close button on launch
+        let closeButtonModal = document.getElementById("close-button");
+        closeButtonModal.style.visibility = "hidden";
     }
 
     loadListsFromJSON(jsonFilePath) {
