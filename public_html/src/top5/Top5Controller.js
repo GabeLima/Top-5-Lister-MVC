@@ -50,6 +50,8 @@ export default class Top5Controller {
             // AND FOR TEXT EDITING
             item.ondblclick = (ev) => {
                 if (this.model.hasCurrentList()) {
+                    let addListModal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
+                    addListModal.style.visibility = "hidden";   
                     // CLEAR THE TEXT
                     item.innerHTML = "";
 
@@ -68,10 +70,12 @@ export default class Top5Controller {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
                             this.model.view.updateToolbarButtons(this.model);
+                            addListModal.style.visibility = "visible";
                         }
                     }
                     textInput.onblur = (event) => {
                         this.model.restoreList();
+                        addListModal.style.visibility = "visible";
                     }
                 }
             }
@@ -110,7 +114,7 @@ export default class Top5Controller {
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             let addListModal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
-            addListModal.style.visibility = "hidden";   
+            addListModal.style.visibility = "visible";  
             this.model.unselectAll();
             // GET THE SELECTED LIST
             //top5-statusbar
@@ -151,6 +155,8 @@ export default class Top5Controller {
 
         //FOR EDITING THE LIST NAME
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
+            let addListModal = document.getElementById("add-list-button"); //HIDE THE ADD A LIST BUTTON
+            addListModal.style.visibility = "hidden";   
             //Hide the list button
 
 
@@ -176,11 +182,13 @@ export default class Top5Controller {
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
                     this.model.renameList(id, event.target.value); //need to modify this to change the list name, not the items in the list
+                    addListModal.style.visibility = "visible";
                 }
             }
             textInput.onblur = (event) => {
                 item.innerText = oldListName;
                 this.model.restoreList();
+                addListModal.style.visibility = "visible";
             }
         }
 
